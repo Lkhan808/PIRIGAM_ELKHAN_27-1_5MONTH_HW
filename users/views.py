@@ -18,7 +18,7 @@ def registration_view(request):
             username=serializer.validated_data['username'],
             password=serializer.validated_data['password']
         )
-        return Response(data={'user'})
+        return Response(data={'user_id': user.id})
 
 
 @api_view(['POST'])

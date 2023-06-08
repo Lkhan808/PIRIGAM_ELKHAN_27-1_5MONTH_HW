@@ -21,17 +21,26 @@ from django.conf.urls.static import static
 
 from product.views import *
 
+
+list_create = {
+    'get': 'list',
+    'post': 'create'}
+
+update_retrieve_destroy = {
+    'get': 'retrieve',
+    'put': 'update',
+    'delete': 'destroy'}
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/products/', product_list_create_api_view),
-    path('api/products/reviews/', products_reviews_api_view),
-    path('api/products/<int:id>/', product_retrieve_api_view),
-    path('api/categories/', category_list_api_view),
-    path('api/categories/<int:id>/', category_retrieve_api_view),
-    path('api/reviews/', review_list_api_view),
-    path('api/reviews/<int:id>/', review_retrieve_api_view),
-    path('api/users', include('users.urls')),
-    path('', first_view)
+    path('api/products/', ProductModelViewSet.as_view(list_create), name='ProductListView'),
+    path('api/products/reviews/', ReviewProductAPIView.as_view()),
+    path('api/products/<int:pk>/', ProductModelViewSet.as_view(update_retrieve_destroy), name='ProductListView'),
+    path('api/categories/', CategoryModelView.as_view(list_create), name='CategoryAPIView'),
+    path('api/categories/<int:pk>/', CategoryModelView.as_view(update_retrieve_destroy), name='CategoryAPIView'),
+    path('api/reviews/', ReviewModelView.as_view(list_create), name='ReviewAPIView'),
+    path('api/reviews/<int:pk>/', ReviewModelView.as_view(update_retrieve_destroy), name='ReviewAPIView'),
+    path('api/users/', include('users.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,7 +3,7 @@ from django.db.models import Count
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=20)
 
     @property
     def count_products(self):
@@ -26,7 +26,10 @@ class Product(models.Model):
     def rating(self):
         reviews = self.reviews.all().count()
         stars = sum([i.stars for i in self.reviews.all()])
-        return stars//reviews
+        if stars and reviews:
+            return stars//reviews
+        else:
+            pass
 
     def __str__(self): return self.title
 

@@ -4,8 +4,8 @@ from rest_framework.exceptions import ValidationError
 
 
 class UserCreateSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
+    username = serializers.CharField(required=True, max_length=28)
+    password = serializers.CharField(required=True, min_length=1)
 
     def validate_username(self, username):
         try:
